@@ -6,13 +6,14 @@
 
 #include "google/cloud/vision/v1/image_annotator.pb.h"
 #include "google/cloud/vision/v1/image_annotator.gapic.h"
+#include "google/cloud/vision/v1/image_annotator_stub.gapic.h"
 
 
 int main () {
 
   std::string image_url = "https://cloud.google.com/_static/d179425f4c/images/cloud/cloud-logo.svg";
 
-  ImageAnnotator client;
+  ImageAnnotator client(CreateImageAnnotatorStub());
 
   ::google::cloud::vision::v1::BatchAnnotateImagesRequest request;
   ::google::cloud::vision::v1::AnnotateImageRequest* annotate_request = request.add_requests();
@@ -31,7 +32,7 @@ int main () {
       }
     }
   } else {
-    std::cout << status.status().error_code() << "\n";
-    std::cout << status.status().error_message() << "\n";
+    std::cout << response.status().code() << "\n";
+    std::cout << response.status().message() << "\n";
   }
 }

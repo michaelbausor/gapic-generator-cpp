@@ -12,10 +12,25 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+load("@com_google_gapic_generator_cpp//rules_gapic/cpp:cc_gapic.bzl", "cc_gapic_library")
+load("@com_github_grpc_grpc//bazel:cc_grpc_library.bzl", "cc_grpc_library")
+
 cc_gapic_library(
     name = "cc_vision_gapic",
+    src = "@com_google_googleapis//google/cloud/vision/v1:vision_proto_with_info",
+    package = "google.cloud.vision.v1",
     deps = [
-        "@googleapis//google/cloud/vision/v1:vision_proto_with_info"
+        "@com_google_googleapis//google/cloud/vision/v1:vision_cc_proto",
+        "@com_google_googleapis//google/cloud/vision/v1:vision_cc_grpc"
     ]
 )
 
+cc_binary(
+    name = "vision_gapic_helloworld",
+    srcs = ["vision_main.cc"],
+    deps = [
+        ":cc_vision_gapic",
+        "@com_google_googleapis//google/cloud/vision/v1:vision_cc_proto",
+        "@com_google_googleapis//google/cloud/vision/v1:vision_cc_grpc"
+    ]
+)
